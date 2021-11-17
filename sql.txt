@@ -1,0 +1,8 @@
+create database Radio;
+use database Radio;
+create table users(
+	user_id int auto_increment,
+	user_name varchar(20) not null,
+	user_email varchar(30) not null,
+	primary key(user_id)
+);

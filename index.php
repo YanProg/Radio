@@ -7,6 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
     rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link rel="stylesheet" href="index.css" />
+  
   <title>Pagina Inicial</title>
 </head>
 <body style="height: 100%">
@@ -26,7 +27,14 @@
   </header>
   <div id="mini-player" class="overflow-hidden">
     <button id="btn-close" class="p-0 border-0"><img src="icons/x.svg"></button>
-    <div style="height: 220px"></div>
+    <div id="picture" style="height: 200px" class="d-flex justify-content-center overflow-hidden p-3"></div>
+    <div style="height: 30px">
+      <small id="duration" class="ps-2">0:00 / 0:00</small>
+      <div style="height: 5px;background-color: rgb(245, 245, 245)">
+        <div id="progress-bar" style="height: 100%;width: 0px;background-color: red"></div>
+      </div>
+    </div>
+    
     <div style="height: 30px;font-size: 0" class="d-flex justify-content-around px-5">
       <button id="btn-left" class="bg-transparent border-0"><img src="icons/arrow-bar-left.svg" width="30px"/></button>
       <button id="btn-RP" class="bg-transparent border-0"><img id="btnRP-icon" src="icons/pause-fill.svg" width="30px"/></button>
@@ -41,50 +49,6 @@
       <button class="filter-btn">Mais recentes</button>
     </div>
     <div id="songs-container" class="w-100">
-      <div class="song">
-        <div class="song-picture">
-          <div class="song-play-icon d-flex align-items-center justify-content-center">
-            <img src="icons/play-fill.svg" width="50px" class="svg-icon">
-          </div>
-        </div>
-        <div class="song-info">
-          <div>Eazy E Ft. Blood Of Abraham - Niggaz And Jews</div>
-          <div>3:28</div>
-        </div>
-      </div>
-      <div class="song">
-        <div class="song-picture">
-          <div class="song-play-icon d-flex align-items-center justify-content-center">
-            <img src="icons/play-fill.svg" width="50px" class="svg-icon">
-          </div>
-        </div>
-        <div class="song-info">
-          <div>2Pac - Only God Can Judge Me (Solo)</div>
-          <div>3:32</div>
-        </div>
-      </div>
-      <div class="song">
-        <div class="song-picture">
-          <div class="song-play-icon d-flex align-items-center justify-content-center">
-            <img src="icons/play-fill.svg" width="50px" class="svg-icon">
-          </div>
-        </div>
-        <div class="song-info">
-          <div>Mobb Deep - Shook Ones pt.II</div>
-          <div>5:28</div>
-        </div>
-      </div>
-      <div class="song" onclick="playSong('Adestrador De Madeon')">
-        <div class="song-picture">
-          <div class="song-play-icon d-flex align-items-center justify-content-center">
-            <img src="icons/play-fill.svg" width="50px" class="svg-icon">
-          </div>
-        </div>
-        <div class="song-info">
-          <div>Adestrador de Madeon</div>
-          <div>3:00</div>
-        </div>
-      </div>
     </div>
     
   </section>
