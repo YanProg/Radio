@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pr-br" style="height: 100%">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content=""width=device-width, initial-scale=1.0>
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" media="screen" href="css/teladeloginradio.css" />
+
+<title>Rádio - Login</title>
+
+<link rel="stylesheet" media="screen" href="css/teladeloginradio.css" />
+</head>
+<body style="height: 100%">
+
+<div class= "conteiner">
+      
+      <div class="form">
+        <form class="formulario" action="">
+          <div class="inputemail">
+            <label class="labelinput" for=""> E-mail</label>
+            <input class="input" title="Insira um e-mail cadastrado" type="email">
+          </div>
+          <div class="inputpassword">
+            <label class="labelinput" for="">Senha</label>
+            <input class="input" title="Insira sua senha" type="password">
+            <a class="linkpassword" title="Esqueceu a senha ou o e-mail/apelido?" href="#">Esqueceu a senha?</a>
+          </div>
+          <button id="portas" class="portas" type="submit" title="Entrar">
+        </button>
+        </form>
+
+          </div>        
+      </div>
+
+<canvas height="500" width="1000" id="canvas"></canvas>
+
+          <div class="abrir-conta">
+            <h2> Abra sua conta </h2>
+            <h3> É gratuito!</h3>
+
+            <form class="criar-conta" action="#">
+     
+              <div class="w50">
+                <input placeholder="Apelido" title="Insira um apelido" type="text" >
+              </div>
+              <div class="w100">
+                <input placeholder="E-mail" title="Insira um email existente" type="cemail">
+              </div>
+              <div class="inputpassword2" id="password2">
+                <input id="input-password" placeholder="Sua senha" title="Insira sua senha" type="password">
+              </div>
+              <button id="btn-senha" class="botoes" title="Ver senha">
+                <div id="mostrar" class="" ><img  class="imgbotoes"  src="versenha.png"  alt=""></div>
+                <div id="esconder" class="" style="display: none;"/><img class="imgbotoes"  src="olhos.jpg"  alt=""></div>
+              </button>
+
+              <div class="submit">
+                <button type="submit" class="btn btn-green" title="Cadastro">  Cadastrar!</button>
+              <div class="clear" ></div>
+            </div>
+            </div>
+            </form>
+          </div>
+     
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+ <script type="text/javascript">
+
+ window.requestAnimFrame = (function () {
+  return (
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    function (callback) {
+      window.setTimeout(callback, 1000 / 60);
+    }
+  );
+})();
+
+$(document).ready(function () {
+  $("#canvas")
+    .mousedown(function () {
+      settings.velocity_x += 2;
+    })
+    .mouseup(function () {
+      settings.velocity_x -= 2;
+    });
+  star = function () {
+    this.offset = 0;
+    (this.x = 0),
+      (this.y = 0),
+      (this.params = {
+        velocity_x: 1,
+        velocity_y: 1,
+        opacicty: 1,
+        lifetime:3,
+        x_offset: 0,
+        y_offset: 0,
+        radius: 0,
+        decay: 0,
+        growth: 0,
+        amplitude: 100,
+        phaseshift: 360,
+        freq: 0.05,
+        color: "255,255,255"
+      });
+  };
+
+  star.prototype.init = function () {
+    //Randomize
+    this.params.phaseshift = Math.random() * 0.01;
+    this.params.amplitude = Math.ceil(Math.random() * settings.amplitudeSeed);
+    this.params.freq = Math.random() * settings.freqSeed;
+    this.params.x_offset = Math.ceil(Math.random() * 1000);
+    this.params.y_offset =
+      settings.y_center + Math.ceil(Math.random() * settings.y_offsetSeed);
+    this.params.lifetime = Math.ceil(Math.random() * 3);
+    this.params.velocity_x = Math.random() * settings.velocity_xSeed;
+    this.params.velocity_y = Math.random() * settings.velocity_ySeed;
+    this.params.radius = Math.random() * settings.maxradius;
+    this.params.opacity =
+      Math.round(Math.random() * settings.opacSeed, 2) / 100;
+    if (settings.decay) {
+      this.params.decay =
+        Math.round(Math.random() * 1.5) * Math.random() * 0.01;
+    }
+    if (settings.growth) {
+      this.params.growth =
+        Math.round(Math.random() * 1.2) * Math.random() * 0.01;
+    }
+
+    if (settings.irregColors) {
+      switch (Math.ceil(Math.random() * settings.colorPct)) {
+        case 1:
+          this.params.color = "255,255,255";
+          break;
+        case 2:
+          this.params.color = "255,255,255";
+          break;
+        case 3:
+          this.params.color = "255,255,255";
+          break;
+        case 4:
+          this.params.color = "255,255,255";
+          break;
+        default:
+          this.params.color = "255,255,255";
+          break;
+      }
+    }
+    this.x = this.params.x_offset;
+  };
+
+  star.prototype.draw = function (ctx, new_x) {
+    this.offset = this.offset + 1;
+    var t = this.params.x_offset + this.offset;
+
+    if (this.params.opacity > settings.opacMax) {
+      this.params.decay *= -1;
+      this.params.lifetime--;
+    } else if (this.params.opacity <= settings.opacMin) {
+      this.params.lifetime--;
+      this.params.decay *= -1;
+      this.params.opacity = 0;
+    }
+    if (this.params.radius > settings.maxradius) {
+      this.params.growth *= -1;
+    } else if (this.params.radius <= 0.2) {
+      this.params.growth *= -1;
+      this.params.radius = 0.2;
+    }
+    this.params.radius += 2 * this.params.growth;
+
+    this.params.opacity += 2 * this.params.decay;
+
+    this.y =
+      this.params.y_offset +
+      (this.params.amplitude / 4) *
+        Math.sin((2 + t * settings.velocity_y * 0.03) * this.params.freq) *
+        this.params.velocity_y *
+        settings.scale_y;
+    this.x += 1 * this.params.velocity_x * settings.velocity_x;
+    ctx.beginPath();
+    ctx.fillStyle =
+      "rgba(" +
+      this.params.color +
+      "," +
+      Math.round(this.params.opacity * 100) / 100 +
+      ")";
+    ctx.arc(this.x, this.y, this.params.radius, 0, Math.PI * 2, false);
+    ctx.fill();
+  };
+
+  settings = {
+    velocity_x: 1,
+    scale_y: -7,
+    y_center: 250,
+    y_offsetSeed: 0,
+    velocity_y: 1,
+    particles: 120,
+    maxradius: 5,
+    irregColors: true,
+    decay: true,
+    growth: true,
+    freqSeed: 1.4,
+    amplitudeSeed: 100,
+    velocity_xSeed: 1,
+    velocity_ySeed: 1,
+    opacMax: 0.601,
+    opacMin: 0.01,
+    opacSeed: 90,
+    colorPct: 10
+  };
+
+  var stars = [];
+  init = function () {
+    for (i = 0; i < settings.particles; i++) {
+      stars[i] = new star();
+      stars[i].init();
+    }
+  };
+
+  var deg2rad = function (angle) {
+    return angle * 0.017453292519943295; // (angle / 180) * Math.PI;
+  };
+
+  var colorfreq = function (i) {
+    var frequency = 0.3;
+    i = i % 32;
+    var red = Math.ceil(Math.sin(frequency * i + 0) * 127 + 128);
+    var green = Math.ceil(Math.sin(frequency * i + 2) * 127 + 128);
+    var blue = Math.ceil(Math.sin(frequency * i + 4) * 127 + 128);
+    return (
+      "rgba(" + red + "," + green + "," + blue + "," + settings.alpha + ")"
+    );
+  };
+
+  init();
+  var ctx = document.getElementById("canvas").getContext("2d");
+  var offset = 0;
+  (function animloop() {
+    requestAnimFrame(animloop);
+    ctx.fillStyle = "rgba(0,0,0,1)";
+    ctx.fillRect(0, 0, 1000, 1000);
+    for (i = 0; i < settings.particles; i++) {
+      stars[i].draw(ctx);
+      ctx.beginPath();
+      ctx.fill();
+      if (
+        stars[i].x > 998 ||
+        (stars[i].params.lifetime < 0 && stars[i].params.opacity <= 0) ||
+        stars[i].y < 0 - settings.maxradius ||
+        stars[i].x < 0 - settings.maxradius ||
+        stars[i].y > 500 + settings.maxradius
+      ) {
+        stars[i] = new star();
+        stars[i].init();
+        stars[i].params.x_offset = -1 * offset;
+        stars[i].x -= Math.random() * 200;
+        stars[i].params.opacity = 0;
+      }
+    }
+  })();
+});
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+    let inPassword = $('#input-password');
+    let olho = $('#btn-senha');
+    let ativa = $('#mostrar');
+    let desativa = $('#esconder');
+    let olhoativo = false;
+
+    olho.mousedown(function mostrasenha() {
+      olhoativo = !olhoativo;
+
+      if (olhoativo){ 
+        inPassword.attr("type", "text");
+        ativa.hide();
+        desativa.show();
+      }else{
+        inPassword.attr("type", "password");
+        ativa.show();
+        desativa.hide();
+      }
+    });
+
+  </script>
+
+</body>
+</html>
